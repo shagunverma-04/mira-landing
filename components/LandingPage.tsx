@@ -736,83 +736,98 @@ function FeaturesGrid() {
   )
 }
 
-/* ─── Pricing ─────────────────────────────────────────────────── */
-function Pricing() {
-  const perks = [
-    'Unlimited calls',
-    'WhatsApp notifications',
-    'Full call log dashboard',
-    'English + Hindi + Hinglish',
-    'Setup in 10 minutes',
-    'Cancel anytime',
-  ]
+/* ─── Demo Video ──────────────────────────────────────────────── */
+function DemoVideo() {
+  const [playing, setPlaying] = useState(false)
 
   return (
-    <section id="pricing" className="py-24 px-6" style={{ background: '#1A1814' }}>
+    <section id="demo" className="py-24 px-6" style={{ background: '#1A1814' }}>
       <div className="max-w-[1200px] mx-auto">
         <Reveal>
-          <div className="mb-12 max-w-[480px]">
-            <Eyebrow>Pricing</Eyebrow>
-            <h2 className="font-display text-h2 text-text-primary mt-3">
-              Simple pricing.<br />
-              Less than one <em style={{ color: '#C9A882' }}>missed booking.</em>
+          <div className="mb-12 text-center flex flex-col items-center gap-3">
+            <Eyebrow>See it in action</Eyebrow>
+            <h2 className="font-display text-h2 text-text-primary max-w-[560px]">
+              Watch Mira handle a real{' '}
+              <em style={{ color: '#C9A882' }}>guest call.</em>
             </h2>
+            <p className="font-body text-[17px] font-[300] text-text-secondary leading-[1.65] max-w-[460px]">
+              A Goa Superhost. A 2 AM WiFi question. Mira picks up in seconds.
+            </p>
           </div>
         </Reveal>
 
-        <div className="flex justify-start">
-          <Reveal>
-            <div
-              className="w-full max-w-[420px] rounded-2xl p-8 flex flex-col gap-7"
-              style={{
-                background: '#0F0E0C',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 0 60px rgba(217,79,61,0.06)',
-              }}
-            >
-              {/* Header */}
-              <div>
-                <div className="eyebrow mb-3" style={{ color: '#D94F3D' }}>✳ Starter</div>
-                <div className="flex items-baseline gap-2">
-                  <span className="font-display text-[48px] text-text-primary" style={{ letterSpacing: '-1px', lineHeight: 1 }}>
-                    ₹1,499
-                  </span>
-                  <span className="font-body text-[15px] text-text-secondary">/month per property</span>
-                </div>
-                <p className="font-body text-[13px] text-text-muted mt-2">
-                  30-day free trial — no card needed
-                </p>
-              </div>
+        <Reveal>
+          <div className="relative max-w-[860px] mx-auto rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)', background: '#0F0E0C' }}>
+            {/* 16:9 aspect ratio container */}
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              {!playing ? (
+                /* Placeholder / thumbnail */
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+                  {/* Decorative waveform */}
+                  <div className="flex items-center gap-[3px] h-12 opacity-30" aria-hidden>
+                    {[4,7,12,18,10,22,14,8,18,24,16,10,20,14,6,18,22,12,8,16].map((h, i) => (
+                      <div
+                        key={i}
+                        className="w-1 rounded-full"
+                        style={{
+                          height: `${h * 2}px`,
+                          background: '#C9A882',
+                          animation: `breathe ${1.5 + (i % 4) * 0.3}s ease-in-out infinite`,
+                          animationDelay: `${i * 0.08}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
 
-              {/* Divider */}
-              <div className="h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
-
-              {/* Perks */}
-              <ul className="flex flex-col gap-3">
-                {perks.map(perk => (
-                  <li key={perk} className="flex items-center gap-3">
-                    <span className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: 'rgba(122,175,110,0.15)' }}>
-                      <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <path d="M1 4l2 2 4-4" stroke="#7AAF6E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                  {/* Play button */}
+                  <button
+                    onClick={() => setPlaying(true)}
+                    className="group flex items-center gap-4 px-8 py-4 rounded-2xl transition-all duration-200"
+                    style={{ background: 'rgba(217,79,61,0.12)', border: '1px solid rgba(217,79,61,0.3)' }}
+                    aria-label="Play demo video"
+                  >
+                    <span
+                      className="w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-150"
+                      style={{ background: '#D94F3D' }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="white" />
                       </svg>
                     </span>
-                    <span className="font-body text-[14px] font-[300] text-text-primary">{perk}</span>
-                  </li>
-                ))}
-              </ul>
+                    <span className="font-body text-[15px] font-[500] text-text-primary">
+                      Play demo — 2 min
+                    </span>
+                  </button>
 
-              {/* CTA */}
-              <a href="#" className="btn-primary w-full justify-center" style={{ fontSize: '15px', padding: '14px 28px' }}>
-                Start free for 30 days →
-              </a>
+                  {/* Labels */}
+                  <div className="flex items-center gap-5">
+                    {['Real guest call', 'Hinglish response', 'WhatsApp alert'].map(label => (
+                      <span key={label} className="flex items-center gap-1.5 font-body text-[12px] text-text-muted">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                          <path d="M2 5l2 2 4-4" stroke="#7AAF6E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* Video iframe — swap src for your actual video URL */
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                  title="Mira demo"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
 
         <Reveal>
-          <p className="mt-8 font-body text-[14px] text-text-secondary max-w-[400px]">
-            One missed booking in Goa = ₹5,000–15,000.<br />
-            <span className="text-text-muted">Mira pays for itself the first week.</span>
+          <p className="text-center font-body text-[13px] text-text-muted mt-6">
+            No script. No actors. A real host&apos;s property — real guest questions.
           </p>
         </Reveal>
       </div>
@@ -827,7 +842,7 @@ function Objections() {
   const faqs = [
     {
       q: 'What if Mira gets something wrong?',
-      a: "Mira only answers from what you tell her during setup. If she doesn't know, she says so and asks the guest to WhatsApp you directly.",
+      a: "Mira only answers from what you tell her during setup. If a question falls outside her knowledge base, she doesn't guess — she immediately transfers the call to you, the host, so nothing important slips through.",
     },
     {
       q: 'My guests prefer WhatsApp, not calls.',
@@ -1026,7 +1041,7 @@ export default function LandingPage() {
       <HowItWorks />
       <NightWithMira />
       <FeaturesGrid />
-      <Pricing />
+      <DemoVideo />
       <Objections />
       <FinalCTA />
       <Footer />
