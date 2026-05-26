@@ -4,21 +4,18 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 
 /* ─── Shared atoms ────────────────────────────────────────────── */
 
-function MiraWave({ width = 52 }: { width?: number }) {
-  const h = 8
-  const bumps = 4
-  const bw = width / bumps
-  let d = `M0,${h / 2}`
-  for (let i = 0; i < bumps; i++) {
-    const x0 = i * bw
-    const x1 = x0 + bw / 2
-    const x2 = x0 + bw
-    d += ` C${x0 + bw * 0.3},0 ${x1 - bw * 0.1},${h} ${x1},${h / 2}`
-    d += ` C${x1 + bw * 0.1},0 ${x2 - bw * 0.3},${h} ${x2},${h / 2}`
-  }
+function MiraLogo({ size = 36 }: { size?: number }) {
   return (
-    <svg width={width} height={h} viewBox={`0 0 ${width} ${h}`} fill="none" aria-hidden>
-      <path d={d} stroke="#C9A882" strokeWidth="1.4" strokeOpacity="0.45" fill="none" />
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" aria-hidden>
+      <circle cx="50" cy="50" r="50" fill="#0F0E0C" />
+      {/* 6 spokes at 60° intervals, starting from top (90°) */}
+      <line x1="50" y1="43" x2="50" y2="12" stroke="#C9A882" strokeWidth="5" strokeLinecap="round" />
+      <line x1="56.1" y1="46.5" x2="82.9" y2="31" stroke="#C9A882" strokeWidth="5" strokeLinecap="round" />
+      <line x1="56.1" y1="53.5" x2="82.9" y2="69" stroke="#C9A882" strokeWidth="5" strokeLinecap="round" />
+      <line x1="50" y1="57" x2="50" y2="88" stroke="#C9A882" strokeWidth="5" strokeLinecap="round" />
+      <line x1="43.9" y1="53.5" x2="17.1" y2="69" stroke="#C9A882" strokeWidth="5" strokeLinecap="round" />
+      <line x1="43.9" y1="46.5" x2="17.1" y2="31" stroke="#C9A882" strokeWidth="5" strokeLinecap="round" />
+      <circle cx="50" cy="50" r="3.5" stroke="#0F0E0C" strokeWidth="2" fill="none" />
     </svg>
   )
 }
@@ -91,11 +88,11 @@ function Nav() {
     >
       <div className="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex flex-col gap-[2px] group" aria-label="Mira home">
+        <a href="#" className="flex items-center gap-2.5 group" aria-label="Mira home">
+          <MiraLogo size={34} />
           <span className="font-display text-[21px] text-text-primary tracking-[-0.5px] leading-none">
-            ✳ Mira
+            Mira
           </span>
-          <MiraWave width={48} />
         </a>
 
         {/* Desktop links */}
@@ -738,8 +735,6 @@ function FeaturesGrid() {
 
 /* ─── Demo Video ──────────────────────────────────────────────── */
 function DemoVideo() {
-  const [playing, setPlaying] = useState(false)
-
   return (
     <section id="demo" className="py-24 px-6" style={{ background: '#1A1814' }}>
       <div className="max-w-[1200px] mx-auto">
@@ -760,67 +755,57 @@ function DemoVideo() {
           <div className="relative max-w-[860px] mx-auto rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)', background: '#0F0E0C' }}>
             {/* 16:9 aspect ratio container */}
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              {!playing ? (
-                /* Placeholder / thumbnail */
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-                  {/* Decorative waveform */}
-                  <div className="flex items-center gap-[3px] h-12 opacity-30" aria-hidden>
-                    {[4,7,12,18,10,22,14,8,18,24,16,10,20,14,6,18,22,12,8,16].map((h, i) => (
-                      <div
-                        key={i}
-                        className="w-1 rounded-full"
-                        style={{
-                          height: `${h * 2}px`,
-                          background: '#C9A882',
-                          animation: `breathe ${1.5 + (i % 4) * 0.3}s ease-in-out infinite`,
-                          animationDelay: `${i * 0.08}s`,
-                        }}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Play button */}
-                  <button
-                    onClick={() => setPlaying(true)}
-                    className="group flex items-center gap-4 px-8 py-4 rounded-2xl transition-all duration-200"
-                    style={{ background: 'rgba(217,79,61,0.12)', border: '1px solid rgba(217,79,61,0.3)' }}
-                    aria-label="Play demo video"
-                  >
-                    <span
-                      className="w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-150"
-                      style={{ background: '#D94F3D' }}
-                    >
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="white" />
-                      </svg>
-                    </span>
-                    <span className="font-body text-[15px] font-[500] text-text-primary">
-                      Play demo — 2 min
-                    </span>
-                  </button>
-
-                  {/* Labels */}
-                  <div className="flex items-center gap-5">
-                    {['Real guest call', 'Hinglish response', 'WhatsApp alert'].map(label => (
-                      <span key={label} className="flex items-center gap-1.5 font-body text-[12px] text-text-muted">
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                          <path d="M2 5l2 2 4-4" stroke="#7AAF6E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        {label}
-                      </span>
-                    ))}
-                  </div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+                {/* Decorative waveform */}
+                <div className="flex items-center gap-[3px] h-12 opacity-30" aria-hidden>
+                  {[4,7,12,18,10,22,14,8,18,24,16,10,20,14,6,18,22,12,8,16].map((h, i) => (
+                    <div
+                      key={i}
+                      className="w-1 rounded-full"
+                      style={{
+                        height: `${h * 2}px`,
+                        background: '#C9A882',
+                        animation: `breathe ${1.5 + (i % 4) * 0.3}s ease-in-out infinite`,
+                        animationDelay: `${i * 0.08}s`,
+                      }}
+                    />
+                  ))}
                 </div>
-              ) : (
-                /* Video iframe — swap src for your actual video URL */
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-                  title="Mira demo"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              )}
+
+                {/* Play button — opens demo video */}
+                <a
+                  href="/demo.mov"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 px-8 py-4 rounded-2xl transition-all duration-200"
+                  style={{ background: 'rgba(217,79,61,0.12)', border: '1px solid rgba(217,79,61,0.3)' }}
+                  aria-label="Watch demo video"
+                >
+                  <span
+                    className="w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-150"
+                    style={{ background: '#D94F3D' }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="white" />
+                    </svg>
+                  </span>
+                  <span className="font-body text-[15px] font-[500] text-text-primary">
+                    Watch demo — 2 min
+                  </span>
+                </a>
+
+                {/* Labels */}
+                <div className="flex items-center gap-5">
+                  {['Real guest call', 'Hinglish response', 'WhatsApp alert'].map(label => (
+                    <span key={label} className="flex items-center gap-1.5 font-body text-[12px] text-text-muted">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M2 5l2 2 4-4" stroke="#7AAF6E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -981,11 +966,11 @@ function Footer() {
         <div className="grid md:grid-cols-[1fr_auto_auto_auto] gap-10 md:gap-16 mb-12">
           {/* Brand */}
           <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-[3px]">
+            <div className="flex items-center gap-2.5">
+              <MiraLogo size={38} />
               <span className="font-display text-[22px] text-text-primary tracking-[-0.4px] leading-none">
-                ✳ Mira
+                Mira
               </span>
-              <MiraWave width={52} />
             </div>
             <p className="font-body text-[13px] text-text-muted leading-[1.6] max-w-[220px] mt-1">
               Always on. Always warm.
