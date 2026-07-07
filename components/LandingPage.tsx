@@ -342,13 +342,12 @@ function Hero() {
             <button onClick={openDemoModal} className="btn-primary">
               Book a Demo →
             </button>
-            <a href="/demo.html" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            <button onClick={openDemoModal} className="btn-ghost">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1" />
-                <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
+                <path d="M12 18.5c-3.5 0-7-1.5-9.5-4S1 8.5 1 5c0-.6.4-1 1-1h4c.5 0 .9.4 1 .9l.8 3.4c.1.4-.1.9-.4 1.1L6 10.7c1.5 2.7 3.7 4.8 6.3 6.3l1.3-1.4c.3-.3.7-.5 1.1-.4l3.4.8c.5.1.9.5.9 1V22c0 .6-.4 1-1 1-3.5 0-7-1.5-9.5-4z" fill="currentColor" transform="scale(0.65) translate(1, 1)" />
               </svg>
-              See Mira in action
-            </a>
+              Call Mira Now
+            </button>
           </div>
 
           <p className="font-body text-[12px] text-text-muted">
@@ -929,6 +928,8 @@ function ComparisonSection() {
 
 /* ─── Demo Video ──────────────────────────────────────────────── */
 function DemoVideo() {
+  const [playing, setPlaying] = useState(false)
+
   return (
     <section id="demo" className="py-24 px-6" style={{ background: '#1A1814' }}>
       <div className="max-w-[1200px] mx-auto">
@@ -948,38 +949,45 @@ function DemoVideo() {
         <Reveal>
           <div className="relative max-w-[860px] mx-auto rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)', background: '#0F0E0C' }}>
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-                <div className="flex items-center gap-[3px] h-12 opacity-30" aria-hidden>
-                  {[4,7,12,18,10,22,14,8,18,24,16,10,20,14,6,18,22,12,8,16].map((h, i) => (
-                    <div key={i} className="w-1 rounded-full" style={{ height: `${h * 2}px`, background: '#C9A882', animation: `breathe ${1.5 + (i % 4) * 0.3}s ease-in-out infinite`, animationDelay: `${i * 0.08}s` }} />
-                  ))}
-                </div>
+              {playing ? (
+                <iframe
+                  className="absolute inset-0 w-full h-full border-0"
+                  src="/demo.html"
+                  title="Mira demo"
+                  allow="autoplay"
+                />
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+                  <div className="flex items-center gap-[3px] h-12 opacity-30" aria-hidden>
+                    {[4,7,12,18,10,22,14,8,18,24,16,10,20,14,6,18,22,12,8,16].map((h, i) => (
+                      <div key={i} className="w-1 rounded-full" style={{ height: `${h * 2}px`, background: '#C9A882', animation: `breathe ${1.5 + (i % 4) * 0.3}s ease-in-out infinite`, animationDelay: `${i * 0.08}s` }} />
+                    ))}
+                  </div>
 
-                <a
-                  href="/demo.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 px-8 py-4 rounded-2xl transition-all duration-200"
-                  style={{ background: 'rgba(217,79,61,0.12)', border: '1px solid rgba(217,79,61,0.3)' }}
-                  aria-label="Watch demo"
-                >
-                  <span className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: '#D94F3D' }}>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="white" />
-                    </svg>
-                  </span>
-                  <span className="font-body text-[15px] font-[500] text-text-primary">Watch demo — 2 min</span>
-                </a>
-
-                <div className="flex items-center gap-5">
-                  {['Real guest call', 'Multilingual support', 'Instant summary'].map(label => (
-                    <span key={label} className="flex items-center gap-1.5 font-body text-[12px] text-text-muted">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#7AAF6E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {label}
+                  <button
+                    onClick={() => setPlaying(true)}
+                    className="group flex items-center gap-4 px-8 py-4 rounded-2xl transition-all duration-200 hover:scale-105"
+                    style={{ background: 'rgba(217,79,61,0.12)', border: '1px solid rgba(217,79,61,0.3)' }}
+                    aria-label="Watch demo"
+                  >
+                    <span className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: '#D94F3D' }}>
+                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M5 3.5l10 5.5-10 5.5V3.5z" fill="white" />
+                      </svg>
                     </span>
-                  ))}
+                    <span className="font-body text-[15px] font-[500] text-text-primary">Watch demo — 2 min</span>
+                  </button>
+
+                  <div className="flex items-center gap-5">
+                    {['Real guest call', 'Multilingual support', 'Instant summary'].map(label => (
+                      <span key={label} className="flex items-center gap-1.5 font-body text-[12px] text-text-muted">
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#7AAF6E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </Reveal>
@@ -1094,9 +1102,7 @@ function FinalCTA() {
               Book a Demo →
             </button>
             <a
-              href="/demo.html"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#demo"
               className="btn-ghost"
               style={{ padding: '15px 24px', fontSize: '15px', borderRadius: '14px' }}
             >
@@ -1104,7 +1110,7 @@ function FinalCTA() {
                 <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1" />
                 <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
               </svg>
-              See Mira in Action
+              Watch the Demo
             </a>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
