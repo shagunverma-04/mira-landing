@@ -20,6 +20,153 @@ function MiraLogo({ size = 36 }: { size?: number }) {
   )
 }
 
+/* ─── Global modal trigger ────────────────────────────────────── */
+const openDemoModal = () =>
+  typeof window !== 'undefined' &&
+  window.dispatchEvent(new CustomEvent('mira:openDemo'))
+
+/* ─── Contact Modal ───────────────────────────────────────────── */
+function ContactModal({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', properties: '1' })
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      setStatus(res.ok ? 'sent' : 'error')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  const field = (
+    label: string,
+    key: keyof typeof form,
+    type = 'text',
+    placeholder = ''
+  ) => (
+    <div className="flex flex-col gap-1.5">
+      <label className="font-body text-[11px] font-[500] text-text-muted uppercase tracking-[0.05em]">
+        {label} *
+      </label>
+      <input
+        required
+        type={type}
+        placeholder={placeholder}
+        value={form[key]}
+        onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
+        className="w-full font-body text-[13px] text-text-primary placeholder:text-text-muted rounded-xl px-3 py-2.5 outline-none transition-colors"
+        style={{ background: '#221F1B', border: '1px solid rgba(255,255,255,0.1)' }}
+      />
+    </div>
+  )
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(10px)' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+    >
+      <div
+        className="w-full max-w-[480px] rounded-2xl p-8 relative"
+        style={{ background: '#1A1814', border: '1px solid rgba(201,168,130,0.22)' }}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-text-muted hover:text-text-primary transition-colors"
+          aria-label="Close"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+
+        {status === 'sent' ? (
+          <div className="flex flex-col items-center gap-5 py-6 text-center">
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(122,175,110,0.12)', border: '1px solid rgba(122,175,110,0.3)' }}
+            >
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M4 11l5 5 9-9" stroke="#7AAF6E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="font-display text-[24px] text-text-primary mb-2">Request sent!</h3>
+              <p className="font-body text-[14px] font-[300] text-text-secondary leading-[1.7]">
+                We&apos;ll reach out within 24 hours to set up your Mira.
+              </p>
+            </div>
+            <button onClick={onClose} className="btn-ghost text-[13px]">Close</button>
+          </div>
+        ) : (
+          <>
+            <div className="mb-6">
+              <Eyebrow>Request a Demo</Eyebrow>
+              <h3 className="font-display text-[24px] text-text-primary mt-2">
+                Let&apos;s set up your Mira.
+              </h3>
+              <p className="font-body text-[13px] font-[300] text-text-secondary mt-1">
+                We&apos;ll call you back within 24 hours.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                {field('Name', 'name', 'text', 'Rohan Mehta')}
+                {field('Phone', 'phone', 'tel', '+91 98xxx xxxxx')}
+              </div>
+              {field('Email', 'email', 'email', 'rohan@yourproperty.com')}
+
+              <div className="flex flex-col gap-1.5">
+                <label className="font-body text-[11px] font-[500] text-text-muted uppercase tracking-[0.05em]">
+                  Properties managed
+                </label>
+                <select
+                  value={form.properties}
+                  onChange={e => setForm(f => ({ ...f, properties: e.target.value }))}
+                  className="w-full font-body text-[13px] text-text-primary rounded-xl px-3 py-2.5 outline-none transition-colors"
+                  style={{ background: '#221F1B', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <option value="1">1 property</option>
+                  <option value="2-3">2–3 properties</option>
+                  <option value="4-10">4–10 properties</option>
+                  <option value="10+">10+ properties</option>
+                </select>
+              </div>
+
+              {status === 'error' && (
+                <p className="font-body text-[12px]" style={{ color: '#D94F3D' }}>
+                  Something went wrong. Email us at miraoncall@gmail.com
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === 'sending'}
+                className="btn-primary w-full justify-center mt-1"
+                style={{ padding: '13px 24px', fontSize: '14px', opacity: status === 'sending' ? 0.7 : 1 }}
+              >
+                {status === 'sending' ? 'Sending…' : 'Request Demo →'}
+              </button>
+
+              <p className="font-body text-[11px] text-text-muted text-center">
+                No commitment &nbsp;·&nbsp; We respond within 24 hours
+              </p>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="eyebrow">✳ {children}</p>
 }
@@ -109,9 +256,9 @@ function Nav() {
         </div>
 
         {/* Desktop CTA */}
-        <a href="#pricing" className="hidden md:flex btn-primary" style={{ padding: '8px 18px', fontSize: '13px', borderRadius: '11px' }}>
+        <button onClick={openDemoModal} className="hidden md:flex btn-primary" style={{ padding: '8px 18px', fontSize: '13px', borderRadius: '11px' }}>
           Request Demo →
-        </a>
+        </button>
 
         {/* Mobile toggle */}
         <button
@@ -141,9 +288,9 @@ function Nav() {
               {l}
             </a>
           ))}
-          <a href="#pricing" className="btn-primary w-fit" onClick={() => setOpen(false)}>
+          <button className="btn-primary w-fit" onClick={() => { setOpen(false); openDemoModal() }}>
             Request Demo →
-          </a>
+          </button>
         </div>
       )}
     </nav>
@@ -204,9 +351,9 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-3 mt-2">
-            <a href="#pricing" className="btn-primary">
+            <button onClick={openDemoModal} className="btn-primary">
               Try Mira Free →
-            </a>
+            </button>
             <a href="#how-it-works" className="btn-ghost">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1" />
@@ -772,9 +919,9 @@ function DemoVideo() {
                   ))}
                 </div>
 
-                {/* Play button — opens demo video */}
+                {/* Play button — opens demo animation */}
                 <a
-                  href="/demo.mov"
+                  href="/demo.html"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4 px-8 py-4 rounded-2xl transition-all duration-200"
@@ -925,13 +1072,13 @@ function FinalCTA() {
           <p className="font-body text-[17px] font-[300] text-text-secondary leading-[1.65] max-w-[420px]">
             Try Mira free for 30 days. No credit card. Cancel anytime.
           </p>
-          <a
-            href="#pricing"
+          <button
+            onClick={openDemoModal}
             className="btn-primary"
             style={{ padding: '15px 32px', fontSize: '15px', borderRadius: '14px' }}
           >
             Set up Mira for my property →
-          </a>
+          </button>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
             {['✳ No credit card required', '✳ 30-day free trial', '✳ Setup in 10 minutes'].map(item => (
               <span key={item} className="font-body text-[12px] text-text-muted">{item}</span>
@@ -1015,8 +1162,17 @@ function Footer() {
 
 /* ─── Main export ─────────────────────────────────────────────── */
 export default function LandingPage() {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  useEffect(() => {
+    const handler = () => setModalOpen(true)
+    window.addEventListener('mira:openDemo', handler)
+    return () => window.removeEventListener('mira:openDemo', handler)
+  }, [])
+
   return (
     <main>
+      {modalOpen && <ContactModal onClose={() => setModalOpen(false)} />}
       <Nav />
       <Hero />
       <SocialProofBar />
