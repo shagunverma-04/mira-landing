@@ -558,11 +558,50 @@ function ProblemSection() {
 /* ─── Call Flow ───────────────────────────────────────────────── */
 function CallFlow() {
   const steps = [
-    { icon: '📞', label: 'Guest Calls', color: '#C9A882' },
-    { icon: '🎙️', label: 'Mira Answers', color: '#C9A882' },
-    { icon: '✅', label: 'Resolves & Logs', color: '#C9A882' },
-    { icon: '🔁', label: 'Escalates if Needed', color: '#E8A030' },
-    { icon: '📋', label: 'Summary Sent', color: '#7AAF6E' },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.4 2.83 2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.04 8.68A16 16 0 0015.36 18l1.21-1.21a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 19z" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      label: 'Guest Calls', color: '#C9A882',
+    },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="9" y="2" width="6" height="11" rx="3" stroke="#C9A882" strokeWidth="1.5"/>
+          <path d="M5 10v2a7 7 0 0014 0v-2M12 19v3M8 22h8" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
+      label: 'Mira Answers', color: '#C9A882',
+    },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M22 4L12 14.01l-3-3" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      label: 'Resolves & Logs', color: '#C9A882',
+    },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M16 3l5 4-5 4" stroke="#E8A030" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 7H8a5 5 0 000 10h1" stroke="#E8A030" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
+      label: 'Escalates if Needed', color: '#E8A030',
+    },
+    {
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="#7AAF6E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M14 2v6h6M8 13h8M8 17h5" stroke="#7AAF6E" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
+      label: 'Summary Sent', color: '#7AAF6E',
+    },
   ]
 
   return (
@@ -579,7 +618,7 @@ function CallFlow() {
               <div key={label} className="flex items-center">
                 <div className="flex flex-col items-center gap-3 px-4 py-4 min-w-[120px]">
                   <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
                     style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${color}30` }}
                   >
                     {icon}
@@ -735,12 +774,76 @@ function WorkflowsGrid() {
 /* ─── Industries ──────────────────────────────────────────────── */
 function IndustriesSection() {
   const industries = [
-    { name: 'Vacation Rentals', icon: '🏖️', desc: 'Villas, beach houses, mountain cabins' },
-    { name: 'Homestays', icon: '🏡', desc: 'Owner-operated, personal hosting' },
-    { name: 'Boutique Hotels', icon: '🏨', desc: 'Independent properties & small chains' },
-    { name: 'Hostels', icon: '🛏️', desc: 'High-volume, budget-conscious operations' },
-    { name: 'Serviced Apartments', icon: '🏢', desc: 'Extended stays, corporate guests' },
-    { name: 'Vacation Villas', icon: '🌴', desc: 'Luxury properties, multi-room estates' },
+    {
+      name: 'Vacation Rentals',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="3" stroke="#C9A882" strokeWidth="1.5"/>
+          <path d="M12 2v1M12 14v1M5.64 5.64l.7.7M17.66 17.66l.7.7M2 8h1M21 8h1M5.64 10.36l.7-.7M17.66 5.64l.7-.7" stroke="#C9A882" strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M3 20h18" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M5 20c1.5-2.5 3.5-4 7-4s5.5 1.5 7 4" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      ),
+      desc: 'Villas, beach houses, mountain cabins',
+    },
+    {
+      name: 'Homestays',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M3 10L12 3l9 7v10H3V10z" stroke="#C9A882" strokeWidth="1.5" strokeLinejoin="round"/>
+          <path d="M9 21v-6h6v6" stroke="#C9A882" strokeWidth="1.5" strokeLinejoin="round"/>
+          <rect x="5" y="11" width="3" height="3" rx="0.5" stroke="#C9A882" strokeWidth="1.3"/>
+          <path d="M16 5V3h3v4" stroke="#C9A882" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      desc: 'Owner-operated, personal hosting',
+    },
+    {
+      name: 'Boutique Hotels',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="5" width="13" height="17" rx="1" stroke="#C9A882" strokeWidth="1.5"/>
+          <path d="M7 9h2M11 9h2M7 13h2M11 13h2M7 17h2M11 17h2" stroke="#C9A882" strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M16 10h5v12h-5" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      desc: 'Independent properties & small chains',
+    },
+    {
+      name: 'Hostels',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="7" width="20" height="5" rx="1" stroke="#C9A882" strokeWidth="1.5"/>
+          <rect x="2" y="14" width="20" height="5" rx="1" stroke="#C9A882" strokeWidth="1.5"/>
+          <path d="M5 7V5M19 7V5M5 14v-2M19 14v-2" stroke="#C9A882" strokeWidth="1.4" strokeLinecap="round"/>
+          <circle cx="6.5" cy="9.5" r="1" fill="#C9A882"/>
+          <circle cx="6.5" cy="16.5" r="1" fill="#C9A882"/>
+        </svg>
+      ),
+      desc: 'High-volume, budget-conscious operations',
+    },
+    {
+      name: 'Serviced Apartments',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <rect x="4" y="2" width="16" height="20" rx="1" stroke="#C9A882" strokeWidth="1.5"/>
+          <path d="M8 6h2M14 6h2M8 10h2M14 10h2M8 14h2M14 14h2" stroke="#C9A882" strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M10 22v-4h4v4" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      desc: 'Extended stays, corporate guests',
+    },
+    {
+      name: 'Vacation Villas',
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M1 21h22M5 21V9L12 3l7 6v12" stroke="#C9A882" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M8 21v-6h8v6" stroke="#C9A882" strokeWidth="1.5" strokeLinejoin="round"/>
+          <path d="M5 12h4M15 12h4" stroke="#C9A882" strokeWidth="1.4" strokeLinecap="round"/>
+        </svg>
+      ),
+      desc: 'Luxury properties, multi-room estates',
+    },
   ]
 
   return (
@@ -763,7 +866,7 @@ function IndustriesSection() {
           {industries.map(({ name, icon, desc }, i) => (
             <Reveal key={name} delay={i * 60}>
               <div className="card p-5 flex items-center gap-4 h-full" style={{ background: '#1A1814' }}>
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,168,130,0.12)' }}>
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,168,130,0.12)' }}>
                   {icon}
                 </div>
                 <div>
